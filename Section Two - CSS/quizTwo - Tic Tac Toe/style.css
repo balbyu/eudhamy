@@ -1,0 +1,48 @@
+td{
+    width: 100px;
+    height: 100px;
+}
+
+#topLeft{
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#topRight{
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#topMiddle{
+    border-bottom: 2px solid black;
+}
+
+#bottomLeft{
+    border-right: 2px solid black;
+    border-top: 2px solid black;
+}
+
+#bottomRight{
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+}
+
+#bottomMiddle{
+    border-top: 2px solid black;
+}
+
+#middleRight{
+    border-left: 2px solid black;
+}
+
+#middleLeft{
+    border-right: 2px solid black;
+}
+
+h1{
+    text-align: center;
+}
+
+table{
+    margin: auto;
+}
