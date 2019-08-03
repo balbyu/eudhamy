@@ -1,0 +1,35 @@
+/* Border around entire blog post */
+.outline{
+    margin : 20px auto;
+    border: 20px solid #bdc3c7;
+    max-width: 700px;
+    width : 80%;
+    padding: 15px;
+    font-family: Source Sans Pro
+}
+/* Date of Blog Post */
+.date{
+    color: #3498db;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    padding-top: 10px;
+}
+/* Blog Titles */
+h2{
+    color: #2c3e50;
+    font-size : 2.0rem;
+}
+/* Designates the first paragraph in the blog, giving a block intro */
+.firstParagraph{
+    border-left: 3px solid #3498db;
+    padding-left: 10px;
+}
+hr{
+    border: 0;
+    height: 1px;
+    color: #2c3e50;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+.post{
+    margin-bottom: 20px;
+}
