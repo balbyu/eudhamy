@@ -2,6 +2,7 @@ body {
     background-image: url(https://images.unsplash.com/photo-1415369629372-26f2fe60c467?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80);
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     font-family: Lato;
     color: white;
 }
@@ -27,4 +28,5 @@ hr{
     width: 400px;
     border-top: 1px solid #f8f8f8;
     border-bottom: 1px solid rjba(0,0,0.2);
+    max-width: 90%;
 }
