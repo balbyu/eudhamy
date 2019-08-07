@@ -1,0 +1,72 @@
+.image1 {
+    background-image: url(https://source.unsplash.com/IuzQ77AXaAs);
+}
+
+.image2 {
+    background-image: url(https://source.unsplash.com/PLplezn22eU);
+}
+
+.image3 {
+    background-image: url(https://source.unsplash.com/_JOgnnZvgP0);
+}
+
+.image4 {
+    background-image: url(https://source.unsplash.com/tKnqkvFcmyM);
+}
+
+.image5 {
+    background-image: url(https://source.unsplash.com/rfnf3pSBr3k);
+}
+
+.image6 {
+    background-image: url(https://source.unsplash.com/3-pVlGK9lvI);
+}
+
+.image7 {
+    background-image: url(https://source.unsplash.com/2WO8-ClYO9E);
+}
+
+.image8 {
+    background-image: url(https://source.unsplash.com/tEMU4lzAL0w);
+}
+
+.image9 {
+    background-image: url(https://source.unsplash.com/6QpklOYR9sU);
+}
+
+body {
+    padding-top: 70px;
+}
+
+.image {
+    width: 100%;
+    height: 250px;
+    max-height: 250px;
+    background-size: cover;
+    background-position: center;
+}
+
+.jumbotron {
+    color: #2c3e50;
+    background-color: #ecf0f1;
+}
+
+.navbar-default {
+    background: #2c3e50;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+    color: antiquewhite
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: antiquewhite
+}
