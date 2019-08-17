@@ -108,25 +108,25 @@
     </div>
     <!-- Third Row -->
     <div class="row align-items-center content-container">
-        <!-- Sprinkles Picture -->
-        <div class="col-md-6 order-2 order-md-1">
-          <img src="imgs/sprinkles.png" class="img-fluid" alt="">
-        </div>
-        <!-- Sprinkles Text -->
-        <div class="col-md-6 text-center order-1 order-md-2">
-          <div class="row justify-content-center ">
-            <div class="col-10 col-8-lg blurb mb-5 mb-md-0">
-              <h2>DOPE SPRINKLES</h2>
-              <img class="d-none d-lg-inline" src="imgs/lolli_icon.png" alt="Lollipop">
-              <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi a neque modi, suscipit minus
-                eveniet. Similique autem cupiditate, quis, enim repellendus consequatur necessitatibus a illum, sint rem
-                eum unde sunt saepe amet ducimus delectus voluptates incidunt nihil accusantium dolorum ipsam iure fugit.
-                Tenetur, illum? Dolorum perferendis porro quo magni voluptatem illo, similique id pariatur sunt
-                distinctio, earum iure beatae? Soluta.</p>
-            </div>
+      <!-- Sprinkles Picture -->
+      <div class="col-md-6 order-2 order-md-1">
+        <img src="imgs/sprinkles.png" class="img-fluid" alt="">
+      </div>
+      <!-- Sprinkles Text -->
+      <div class="col-md-6 text-center order-1 order-md-2">
+        <div class="row justify-content-center ">
+          <div class="col-10 col-8-lg blurb mb-5 mb-md-0">
+            <h2>DOPE SPRINKLES</h2>
+            <img class="d-none d-lg-inline" src="imgs/lolli_icon.png" alt="Lollipop">
+            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi a neque modi, suscipit minus
+              eveniet. Similique autem cupiditate, quis, enim repellendus consequatur necessitatibus a illum, sint rem
+              eum unde sunt saepe amet ducimus delectus voluptates incidunt nihil accusantium dolorum ipsam iure fugit.
+              Tenetur, illum? Dolorum perferendis porro quo magni voluptatem illo, similique id pariatur sunt
+              distinctio, earum iure beatae? Soluta.</p>
           </div>
         </div>
       </div>
+    </div>
 
 
   </section>
@@ -149,7 +149,14 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#mainNavbar");
+                $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
 </body>
 
 </html>
