@@ -1,40 +1,85 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
+const express = require("express"),
+    mongoose = require("mongoose"),
+    app = express(),
+    bodyParser = require("body-parser");
 
-var campgrounds = [
-    { name: "Salmon Creek", image: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80" },
-    { name: "Bute Crest Vista", image: "https://images.unsplash.com/photo-1526491109672-74740652b963?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" },
-    { name: "Ugly Forest", image: "https://images.unsplash.com/photo-1519395612667-3b754d7b9086?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" }
-]
-
+mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
+// Schema Setup
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String,
+    description: String
+});
+
+var Campground = mongoose.model("Campground", campgroundSchema);
+
+// Home Page 
 app.get("/", (req, res) => {
     res.render("landing")
 })
 
-// Campgrounds Page
+// INDEX - Show all campgrounds
 app.get("/campgrounds", (req, res) => {
-    res.render("campgrounds", { campgrounds: campgrounds });
+    // Get all campgrounds from DB
+    Campground.find({}, function (err, allCampgrounds) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            // Send campgrounds to the .ejs file under var "campgrounds"
+            res.render("index", { campgrounds: allCampgrounds });
+        }
+    })
 })
 
-// New Campgrounds Form
-app.get("/campgrounds/new", (req, res) => {
-    res.render("new")
-})
 
-// Post Campgrounds
+// CREATE - add a new campground to db
 app.post("/campgrounds", (req, res) => {
     // Get data from form and add to campgrounds array
-    var name = req.body.name
-    var image = req.body.image
-    campgrounds.push({name: name, image: image})
-    //redirect back to campgrounds page
-    res.redirect("/campgrounds")
-})
+    var name = req.body.name,
+        image = req.body.image,
+        description = req.body.description;
+    
+    // Create new campground in DB
+    Campground.create(
+        {
+            name: name,
+            image: image,
+            description: description
+        }, function (err, campground) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect("/campgrounds")
+            }
+        }
+        )
+    })
+    
+    // NEW - Show form to create new campground
+    app.get("/campgrounds/new", (req, res) => {
+        res.render("new")
+    })
 
-app.listen(3000, () => {
+    // SHOW - Show an individual campground from db
+    app.get("/campgrounds/:id", (req, res) => {
+
+        // Find campground by ID
+        Campground.findById(req.params.id, function(err, foundCampground){
+
+            if(err){
+                console.log("You mess up!");
+                console.log(err);
+            }else{
+                res.render("show", {campground: foundCampground});
+            }
+
+        });
+    })
+
+    app.listen(3000, () => {
     console.log("YelpCamp server has started on port 3000.");
 })
