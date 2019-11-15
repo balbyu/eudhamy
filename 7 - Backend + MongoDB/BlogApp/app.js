@@ -40,10 +40,10 @@ app.get("/", function (req, res) {
 app.get("/blogs", function (req, res) {
 
     Blog.find((err, blogs) => {
-        if(err){
+        if (err) {
             console.log(err);
-        }else{
-            res.render("index", {blogs: blogs});
+        } else {
+            res.render("index", { blogs: blogs });
         }
     })
 })
@@ -54,19 +54,39 @@ app.get("/blogs/new", function (req, res) {
 })
 
 // // CREATE - Creates a new blog post
-// app.post("/blog", function (req, res) {
+app.post("/blogs", (req, res) => {
 
-// })
+    let blog = req.body.blog;
 
-// // SHOW - Shows one specified blog post
-// app.get("/blog/:id", function (req, res) {
+    if(blog.image == ""){
+        delete blog.image;
+    }
 
-// })
+    // Create Blog. Redirect back to blogs after creation.
+    Blog.create(req.body.blog, (err, newBlog) => {
+        if (err) {
+            res.render("new");
+        } else {
+            res.redirect("/blogs");
+        }
+    })
+})
 
-// // EDIT - Shows the edit form for one specified blog post
-// app.get("/blog/:id/edit", function (req, res) {
+// SHOW - Shows one specified blog post
+app.get("/blogs/:id", (req, res) => {
+    Blog.findById(req.params.id, (err, foundBlog) => {
+        if(err){
+            res.redirect("/blogs");
+        }else{
+            res.render("show", {blog: foundBlog});
+        }
+    })
+});
 
-// })
+// EDIT - Shows the edit form for one specified blog post
+app.get("/blogs/:id/edit", (req, res) => {
+    res.render("edit");
+});
 
 // // UPDATE - Updates a paticular blog post
 // app.put("/blog/:id", function (req, res) {

@@ -2,6 +2,19 @@ i.icon {
     font-size: 1.2em;
 }
 
-.container.main {
-    margin-top: 7em;
+.headerSpace{
+    margin-bottom: 7em;
+}
+
+.index-blog{
+    margin-bottom: 5em;
+}
+
+.content{
+    margin-top:2em;
+    font-weight: bold;
+}
+
+.description {
+    white-space: pre-line;
 }
