@@ -1,14 +1,17 @@
 const express = require("express"),
     app = express(),
     mongoose = require("mongoose"),
-    bodyParser = require("body-parser");
-
+    bodyParser = require("body-parser"),
+    methodOverride = require("method-override"),
+    sanitizer = require("express-sanitizer");
 
 // App Config
 mongoose.connect("mongodb://localhost/blog_app", { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(sanitizer());
+app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
 // Mongoose Model / Configuration
@@ -53,12 +56,12 @@ app.get("/blogs/new", function (req, res) {
     res.render("new")
 })
 
-// // CREATE - Creates a new blog post
+// CREATE - Creates a new blog post
 app.post("/blogs", (req, res) => {
 
     let blog = req.body.blog;
-
-    if(blog.image == ""){
+    blog.body = req.sanitize(blog.body);
+    if (blog.image == "") {
         delete blog.image;
     }
 
@@ -75,28 +78,58 @@ app.post("/blogs", (req, res) => {
 // SHOW - Shows one specified blog post
 app.get("/blogs/:id", (req, res) => {
     Blog.findById(req.params.id, (err, foundBlog) => {
-        if(err){
+        if (err) {
             res.redirect("/blogs");
-        }else{
-            res.render("show", {blog: foundBlog});
+        } else {
+            res.render("show", { blog: foundBlog });
         }
     })
 });
 
 // EDIT - Shows the edit form for one specified blog post
 app.get("/blogs/:id/edit", (req, res) => {
-    res.render("edit");
+
+    Blog.findById(req.params.id, (err, foundBlog) => {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
+            res.render("edit", { blog: foundBlog });
+        }
+    })
 });
 
-// // UPDATE - Updates a paticular blog post
-// app.put("/blog/:id", function (req, res) {
+// CANCEL EDIT - Shows the edit form for one specified blog post
+app.post("/blogs/:id/cancel", (req, res) => {
+    res.redirect("/blogs/" + req.params.id);
+});
 
-// })
+// UPDATE - Updates a paticular blog post
+app.put("/blogs/:id", function (req, res) {
 
-// // DESTROY - Deletes a paticular blog post
-// app.delete("/blog/:id", function (req, res) {
+    let blog = req.body.blog;
+    blog.body = req.sanitize(blog.body);
+    
+    Blog.findByIdAndUpdate(req.params.id,
+        req.body.blog,
+        (err, updateBlog) => {
+            if (err) {
+                res.redirect("/blogs");
+            } else {
+                res.redirect("/blogs/" + req.params.id);
+            }
+        })
+})
 
-// })
+// DESTROY - Deletes a paticular blog post
+app.delete("/blogs/:id", function (req, res) {
+
+    Blog.findByIdAndDelete(req.params.id,
+        req.body.blog,
+        (err, updateBlog) => {
+            res.redirect("/blogs");
+        })
+
+})
 
 
 // Kick off BlogApp

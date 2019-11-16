@@ -1,3 +1,8 @@
+html{
+    height: auto;
+    width: auto;
+}
+
 i.icon {
     font-size: 1.2em;
 }
@@ -7,7 +12,17 @@ i.icon {
 }
 
 .index-blog{
-    margin-bottom: 5em;
+    padding-top: 2em;
+    margin-bottom: 6em;
+}
+
+#index-blog{
+    margin: 0 auto;
+    width: 40vw;
+}
+
+#indexDate{
+    font-weight: bold;
 }
 
 .content{
@@ -18,3 +33,9 @@ i.icon {
 .description {
     white-space: pre-line;
 }
+
+#editIdea, #deleteIdea{
+    margin-top: 6em ;
+    margin-bottom: 7em ;
+}
+

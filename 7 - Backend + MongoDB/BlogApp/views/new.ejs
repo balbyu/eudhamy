@@ -18,8 +18,15 @@
             <textarea name="blog[body]" cols="30" rows="10" required></textarea>
         </div>
 
-        <input class="ui inverted violet button" type="submit">
+        <input class="ui button" type="submit">
     </form>
 </div>
 
 <% include ./partials/footer %>
+
+<script>
+    function myFunction() {
+        var element = document.getElementById("myDIV");
+        element.classList.toggle("mystyle");
+    }
+</script>
