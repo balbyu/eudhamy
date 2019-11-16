@@ -40,13 +40,3 @@
     //     console.log(user);
     // })
 
-    User.findOne({name: "Hermione Granger"}, (err, user) => {
-        user.posts.push({
-            title: "Oh shit i'm fucked",
-            content: "fuck my pusssy"
-        })
-        user.save((err, user) => {
-            console.log(user);
-        })
-    })
-
