@@ -32,7 +32,7 @@ async function seedDatabase() {
             campground.save();
         }
     } catch (error) {
-        console.log(`Im a noob and can't handle failed try/catches. Here is the error: ${error}`);
+        console.log(`There was an error seeding the database: ${error}`);
     }
 }
 
