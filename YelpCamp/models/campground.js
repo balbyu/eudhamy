@@ -5,7 +5,6 @@
  */
 
 const mongoose = require("mongoose");
-
 const campgroundSchema = new mongoose.Schema({
     name: String,
     image: String,
@@ -27,5 +26,5 @@ const campgroundSchema = new mongoose.Schema({
     ]
 });
 
-const Campground = mongoose.model("Campground", campgroundSchema);
 module.exports = mongoose.model("Campground", campgroundSchema);
+

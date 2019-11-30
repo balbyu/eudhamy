@@ -1,19 +1,37 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const User = require("../models/user");
+/**
+ * indexRoute.js
+ * 
+ * This class represents the index route that hosts a few misc. things:
+ * 
+ *  - Landing
+ *  - Register
+ *  - Login
+ *  - Logout
+ */
 
-// Home Page 
+const express = require("express"),
+router = express.Router(),
+passport = require("passport"),
+User = require("../models/user");
+module.exports = router;
+
+/**
+ * Landing page for YelpCamp
+ */
 router.get("/", (req, res) => {
     res.render("landing")
 })
 
-// Show Register User - Shows the registration form for a new user
+/**
+ * Show Registration Form - Shows the registration form for a new user.
+ */
 router.get("/register", (req, res) => {
     res.render("register");
 })
 
-// Handle Signup Form - Posts the user's data from the signup form
+/**
+ * Handle Signup Form - Handles the post request for when a user registers a new account.
+ */
 router.post("/register", (req, res) => {
     let newUser = new User({ username: req.body.username });
     User.register(newUser, req.body.password, (err, user) => {
@@ -27,22 +45,27 @@ router.post("/register", (req, res) => {
     });
 })
 
-// Show Login Form - Shows the login form to the user
+/**
+ * Show Login Form - Shows the login form to the user.
+ */
 router.get("/login", (req, res) => {
     res.render("login");
 })
 
-// Handle Login Form - Handles the logic when user logs in
+/**
+ * Handle Login Form - Handles the authentication of the login form and redirects to appropriate
+ * route.
+ */
 router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/campgrounds",
         failureRedirect: "/login"
     }));
 
-// Handle Logout - Logic for when user logs out of account
+/**
+ * Handle Logout - Includes the lsogic for when user logs out of their account.
+ */
 router.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/campgrounds");
 })
-
-module.exports = router;

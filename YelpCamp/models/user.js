@@ -1,5 +1,11 @@
-const   mongoose = require("mongoose"),
-        passportLocalMongoose = require("passport-local-mongoose");
+/**
+ * User.js
+ * 
+ * This module represents the schema and model of a comment in our database.
+ */
+
+const mongoose = require("mongoose"),
+passportLocalMongoose = require("passport-local-mongoose");
 
 // Define User Schema
 let UserSchema = new mongoose.Schema({

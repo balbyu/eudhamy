@@ -5,6 +5,8 @@
  * importation, and execution of our YelpCamp app.
  */
 
+let port = 3000;
+
 const express = require("express"),
     mongoose = require("mongoose"),
     app = express(),
@@ -12,17 +14,18 @@ const express = require("express"),
     seedDatabase = require("./public/util/seeds"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
     Campground = require("./models/campground"),
     User = require("./models/user"),
-    Comment = require("./models/comment");
-
-const indexRoutes = require("./routes/index"),
-    commentRoutes = require("./routes/comments"),
-    campgroundRoutes = require("./routes/campgrounds");
+    Comment = require("./models/comment"),
+    indexRoutes = require("./routes/indexRoute"),
+    commentRoutes = require("./routes/commentRoute"),
+    campgroundRoutes = require("./routes/campgroundRoute");
 
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 // seedDatabase();
 
@@ -39,16 +42,17 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Middleware to check if user is logged in for each route. This will pass the local variable currentUser to each template for use
+// Middleware to check if user is logged in for each route. This will pass the local variable currentUser to each template for use.
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 })
 
+// Let express use our routes that we've imported above.
 app.use(indexRoutes);
 app.use(commentRoutes);
 app.use(campgroundRoutes);
 
-app.listen(3000, () => {
-    console.log("YelpCamp server has started on port 3000.");
+app.listen(port, () => {
+    console.log(`YelpCamp server has started on port ${port}`);
 })
