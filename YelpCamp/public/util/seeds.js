@@ -5,8 +5,8 @@
  */
 
 const mongoose = require("mongoose"),
-      Campground = require("./models/campground"),
-      Comment = require("./models/comment");
+      Campground = require("../../models/campground"),
+      Comment = require("../../models/comment");
 
 /**
  * Seeds the Database asynchronously with basic campgrounds of following attributes:
