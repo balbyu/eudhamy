@@ -10,7 +10,8 @@
 
 const express = require("express"),
     router = express.Router(),
-    Campground = require("../models/campground")
+    middleware = require("../middleware/index"),
+    Campground = require("../models/campground");
 
 module.exports = router;
 
@@ -36,7 +37,7 @@ router.get("/campgrounds", (req, res) => {
 /**
  * Post New Campground - posts a new campground to the DB
  */
-router.post("/campgrounds", isLoggedIn, (req, res) => {
+router.post("/campgrounds", middleware.isLoggedIn, (req, res) => {
     // Get data from form and add to campgrounds array
     let name = req.body.name,
         image = req.body.image,
@@ -61,7 +62,7 @@ router.post("/campgrounds", isLoggedIn, (req, res) => {
 /**
  * Create New Campground - Shows the form to create new campground
  */
-router.get("/campgrounds/new", isLoggedIn, (req, res) => {
+router.get("/campgrounds/new", middleware.isLoggedIn, (req, res) => {
     res.render("campgrounds/new")
 })
 
@@ -84,7 +85,7 @@ router.get("/campgrounds/:id", (req, res) => {
 /**
  * Edit Campground - Shows the edit form for an individual campground
  */
-router.get("/campgrounds/:id/edit", isUserAuthorized, (req, res) => {
+router.get("/campgrounds/:id/edit", middleware.isCampgroundOwner, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         res.render("campgrounds/edit", { campground: foundCampground });
     })
@@ -93,7 +94,7 @@ router.get("/campgrounds/:id/edit", isUserAuthorized, (req, res) => {
 /**
 * Update Campground - Puts the updated campground information into DB
 */
-router.put("/campgrounds/:id", isUserAuthorized, (req, res) => {
+router.put("/campgrounds/:id", middleware.isCampgroundOwner, (req, res) => {
     // Find and update campground
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
         if (err) {
@@ -107,7 +108,7 @@ router.put("/campgrounds/:id", isUserAuthorized, (req, res) => {
 /**
 * Destroy Campground - Deletes a certain campground from the DB
 */
-router.delete("/campgrounds/:id", isUserAuthorized, (req, res) => {
+router.delete("/campgrounds/:id", middleware.isCampgroundOwner, (req, res) => {
     Campground.findByIdAndRemove(req.params.id, (err) => {
         if (err) {
             console.log(err);
@@ -116,35 +117,3 @@ router.delete("/campgrounds/:id", isUserAuthorized, (req, res) => {
         }
     });
 })
-
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-/**
- * This method checks to see if a user is authorized to make any changes to an object. This is a useful middleware for situations like editing comments, deleting posts, etc.
- * @param {*} req the request
- * @param {*} res the response
- * @param {*} next the next function to execute if success
- */
-function isUserAuthorized(req, res, next) {
-    if (req.isAuthenticated()) {
-        Campground.findById(req.params.id, (err, foundCampground) => {
-            if (err) {
-                res.redirect("back")
-            } else {
-                if (foundCampground.author.id.equals(req.user._id)) {
-                    next();
-                } else {
-                    res.redirect("back");
-                }
-            }
-        })
-    } else {
-        res.redirect("back");
-    }
-}
-

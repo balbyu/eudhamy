@@ -10,6 +10,15 @@
     padding: 9px;
 }
 
-#delete-form{
+#delete-campground-form{
     display: inline;
+}
+
+#delete-comment-form{
+    display: inline;
+}
+
+#delete-comment-button {
+    background:none!important;
+    border:none; 
 }
