@@ -11,6 +11,7 @@
 const express = require("express"),
     router = express.Router(),
     Campground = require("../models/campground")
+
 module.exports = router;
 
 /**
@@ -83,25 +84,21 @@ router.get("/campgrounds/:id", (req, res) => {
 /**
  * Edit Campground - Shows the edit form for an individual campground
  */
-router.get("/campgrounds/:id/edit", (req, res) => {
+router.get("/campgrounds/:id/edit", isUserAuthorized, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
-        if (err) {
-            res.redirect("/campgrounds")
-        } else {
-            res.render("campgrounds/edit", { campground: foundCampground });
-        }
+        res.render("campgrounds/edit", { campground: foundCampground });
     })
 })
 
 /**
 * Update Campground - Puts the updated campground information into DB
 */
-router.put("/campgrounds/:id", (req, res) => {
+router.put("/campgrounds/:id", isUserAuthorized, (req, res) => {
     // Find and update campground
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
-        if(err){
+        if (err) {
             res.redirect("/campgrounds");
-        } else{
+        } else {
             res.redirect("/campgrounds/" + req.params.id);
         }
     })
@@ -110,11 +107,11 @@ router.put("/campgrounds/:id", (req, res) => {
 /**
 * Destroy Campground - Deletes a certain campground from the DB
 */
-router.delete("/campgrounds/:id", (req, res) => {
+router.delete("/campgrounds/:id", isUserAuthorized, (req, res) => {
     Campground.findByIdAndRemove(req.params.id, (err) => {
-        if(err){
+        if (err) {
             console.log(err);
-        }else{
+        } else {
             res.redirect("/campgrounds")
         }
     });
@@ -127,3 +124,27 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect("/login");
 }
+/**
+ * This method checks to see if a user is authorized to make any changes to an object. This is a useful middleware for situations like editing comments, deleting posts, etc.
+ * @param {*} req the request
+ * @param {*} res the response
+ * @param {*} next the next function to execute if success
+ */
+function isUserAuthorized(req, res, next) {
+    if (req.isAuthenticated()) {
+        Campground.findById(req.params.id, (err, foundCampground) => {
+            if (err) {
+                res.redirect("back")
+            } else {
+                if (foundCampground.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect("back");
+                }
+            }
+        })
+    } else {
+        res.redirect("back");
+    }
+}
+
