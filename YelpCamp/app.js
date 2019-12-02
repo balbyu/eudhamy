@@ -11,6 +11,7 @@ const express = require("express"),
     mongoose = require("mongoose"),
     app = express(),
     bodyParser = require("body-parser"),
+    flash = require("connect-flash"),
     seedDatabase = require("./public/util/seeds"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
@@ -24,6 +25,7 @@ const express = require("express"),
 
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
@@ -45,6 +47,8 @@ passport.deserializeUser(User.deserializeUser());
 // Middleware to check if user is logged in for each route. This will pass the local variable currentUser to each template for use.
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 })
 
